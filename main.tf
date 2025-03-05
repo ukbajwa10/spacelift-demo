@@ -33,8 +33,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = var.vnet_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
-
-   depends_on = [azurerm_resource_group.rg]
+  depends_on = [azurerm_resource_group.rg]
 }
 
 resource "azurerm_subnet" "subnet" {
@@ -67,8 +66,9 @@ resource "azurerm_public_ip" "vm_public_ip" {
   name                = "vm-public-ip"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Static" 
+  allocation_method   = "Static"
   sku                 = "Standard"
+  depends_on = [azurerm_resource_group.rg]
 }
 
 
@@ -81,7 +81,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.vm_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.vm_public_ip.id
   }
 }
 
