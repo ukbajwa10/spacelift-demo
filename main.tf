@@ -11,6 +11,7 @@ provider "azurerm" {
   features {}
 }
 
+# Use the keyvault to get the vm password
 data "azurerm_key_vault" "ukb-kv" {
   name                = "ukb-kv"
   resource_group_name = "automation-ukb"
@@ -32,6 +33,8 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = var.vnet_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
+
+   depends_on = [azurerm_resource_group.rg]
 }
 
 resource "azurerm_subnet" "subnet" {
